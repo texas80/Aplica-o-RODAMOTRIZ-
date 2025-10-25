@@ -473,6 +473,18 @@ def clientes():
     clientes = sistema.listar_clientes()
     return render_template('clientes.html', clientes=clientes)
 
+# Rota para deletar cliente
+@app.route('/deletar_cliente/<int:cliente_id>', methods=['POST'])
+def deletar_cliente(cliente_id):
+    try:
+        with sistema.lock:
+            sistema.cursor.execute('DELETE FROM clientes WHERE id = ?', (cliente_id,))
+            sistema.conn.commit()
+        flash(f'Cliente {cliente_id} removido com sucesso.', 'success')
+    except Exception as e:
+        flash(f'Erro ao remover cliente: {e}', 'error')
+    return redirect(url_for('clientes'))
+
 @app.route('/cadastrar_cliente', methods=['GET', 'POST'])
 def cadastrar_cliente():
     """Cadastro de cliente"""
@@ -498,6 +510,18 @@ def maquinas():
     """Lista de máquinas"""
     maquinas = sistema.listar_maquinas()
     return render_template('maquinas.html', maquinas=maquinas)
+
+# Rota para deletar máquina
+@app.route('/deletar_maquina/<int:maquina_id>', methods=['POST'])
+def deletar_maquina(maquina_id):
+    try:
+        with sistema.lock:
+            sistema.cursor.execute('DELETE FROM maquinas WHERE id = ?', (maquina_id,))
+            sistema.conn.commit()
+        flash(f'Máquina {maquina_id} removida com sucesso.', 'success')
+    except Exception as e:
+        flash(f'Erro ao remover máquina: {e}', 'error')
+    return redirect(url_for('maquinas'))
 
 @app.route('/cadastrar_maquina', methods=['GET', 'POST'])
 def cadastrar_maquina():
