@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Trabalho - Rodamotriz{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus me-2"></i>
+                    Registrar Novo Trabalho
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="cliente_id" class="form-label">
+                                <i class="fas fa-user me-1"></i>Cliente
+                            </label>
+                            <select class="form-select" id="cliente_id" name="cliente_id" required>
+                                <option value="">Selecione um cliente</option>
+                                {% for cliente in clientes %}
+                                <option value="{{ cliente[0] }}">{{ cliente[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="maquina_id" class="form-label">
+                                <i class="fas fa-truck me-1"></i>Máquina
+                            </label>
+                            <select class="form-select" id="maquina_id" name="maquina_id" required>
+                                <option value="">Selecione uma máquina</option>
+                                {% for maquina in maquinas %}
+                                <option value="{{ maquina[0] }}">{{ maquina[1] }} {{ maquina[2] }} ({{ maquina[3] }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="local_trabalho" class="form-label">
+                            <i class="fas fa-map-marker-alt me-1"></i>Local de Trabalho
+                        </label>
+                        <input type="text" class="form-control" id="local_trabalho" name="local_trabalho" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="data_inicio" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>Data Início
+                            </label>
+                            <input type="text" class="form-control" id="data_inicio" name="data_inicio" 
+                                   placeholder="dd/mm/aaaa" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="data_final" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>Data Final
+                            </label>
+                            <input type="text" class="form-control" id="data_final" name="data_final" 
+                                   placeholder="dd/mm/aaaa" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="horimetro_inicial" class="form-label">
+                                <i class="fas fa-clock me-1"></i>Horímetro Inicial (horas)
+                            </label>
+                            <input type="number" class="form-control" id="horimetro_inicial" 
+                                   name="horimetro_inicial" step="0.01" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="horimetro_final" class="form-label">
+                                <i class="fas fa-clock me-1"></i>Horímetro Final (horas)
+                            </label>
+                            <input type="number" class="form-control" id="horimetro_final" 
+                                   name="horimetro_final" step="0.01" required>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Dica:</strong> O horímetro final deve ser maior que o inicial para calcular as horas trabalhadas.
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('trabalhos') }}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left me-1"></i>Voltar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i>Registrar Trabalho
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Máscara para data
+document.getElementById('data_inicio').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2);
+    }
+    if (value.length >= 5) {
+        value = value.substring(0, 5) + '/' + value.substring(5, 9);
+    }
+    e.target.value = value;
+});
+
+document.getElementById('data_final').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2);
+    }
+    if (value.length >= 5) {
+        value = value.substring(0, 5) + '/' + value.substring(5, 9);
+    }
+    e.target.value = value;
+});
+
+// Validação de horímetro
+document.getElementById('horimetro_final').addEventListener('input', function() {
+    const inicial = parseFloat(document.getElementById('horimetro_inicial').value);
+    const final = parseFloat(this.value);
+    
+    if (inicial && final && final <= inicial) {
+        this.setCustomValidity('O horímetro final deve ser maior que o inicial');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+</script>
+{% endblock %}

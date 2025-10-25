@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Rodamotriz{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <h1 class="display-4 text-primary mb-4">
+                    <i class="fas fa-cogs"></i>
+                    RODAMOTRIZ
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Sistema de Controle de Horas de Máquinas
+                </p>
+                <p class="text-muted">
+                    Gerencie clientes, máquinas e registros de trabalho de forma eficiente
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-2x mb-3"></i>
+                <h5 class="card-title">Clientes</h5>
+                <p class="stats-number">{{ clientes_count or 0 }}</p>
+                <a href="{{ url_for('clientes') }}" class="btn btn-light btn-sm">
+                    <i class="fas fa-eye me-1"></i>Ver Clientes
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-truck fa-2x mb-3"></i>
+                <h5 class="card-title">Máquinas</h5>
+                <p class="stats-number">{{ maquinas_count or 0 }}</p>
+                <a href="{{ url_for('maquinas') }}" class="btn btn-light btn-sm">
+                    <i class="fas fa-eye me-1"></i>Ver Máquinas
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-clipboard-list fa-2x mb-3"></i>
+                <h5 class="card-title">Trabalhos</h5>
+                <p class="stats-number">{{ trabalhos_count or 0 }}</p>
+                <a href="{{ url_for('trabalhos') }}" class="btn btn-light btn-sm">
+                    <i class="fas fa-eye me-1"></i>Ver Trabalhos
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-clock fa-2x mb-3"></i>
+                <h5 class="card-title">Horas Totais</h5>
+                <p class="stats-number">{{ horas_totais or 0 }}</p>
+                <small class="text-light">Horas trabalhadas</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>
+                    Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="{{ url_for('cadastrar_cliente') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Cadastrar Cliente
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{{ url_for('cadastrar_maquina') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-truck me-2"></i>
+                            Cadastrar Máquina
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{{ url_for('registrar_trabalho') }}" class="btn btn-success w-100">
+                            <i class="fas fa-plus me-2"></i>
+                            Registrar Trabalho
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{{ url_for('trabalhos') }}" class="btn btn-info w-100">
+                            <i class="fas fa-file-pdf me-2"></i>
+                            Gerar Relatórios
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
